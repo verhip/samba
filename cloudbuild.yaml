@@ -1,0 +1,23 @@
+# https://pkgs.alpinelinux.org/packages?name=samba&branch=edge
+#  * now instead of edge choose latest release and select search
+#  take note of version
+#  vim cloudbuild.yaml # edit _VERSION
+# to run from shell:
+#  gcloud builds submit --config=cloudbuild.yaml .
+
+substitutions:
+  _IMAGE: samba
+  _REGISTRY: eu.gcr.io
+  _VERSION: "4.15.5-r0"
+
+steps:
+- id: docker build
+  name: gcr.io/cloud-builders/docker
+  args: ['build', '--tag=$_REGISTRY/$PROJECT_ID/$_IMAGE:$_VERSION', '--build-arg', 'VERSION=$_VERSION', '.']
+
+# Print version information.
+- id : samba smoke test
+  name: $_REGISTRY/$PROJECT_ID/$_IMAGE:$_VERSION
+  args: ['smbd', '--version']
+
+images: ['$_REGISTRY/$PROJECT_ID/$_IMAGE:$_VERSION']
