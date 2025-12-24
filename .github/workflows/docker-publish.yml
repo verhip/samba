@@ -20,7 +20,7 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-  VERSION: 4.15.5-r0
+  VERSION: 4.22.6-r0
 
 
 jobs:
